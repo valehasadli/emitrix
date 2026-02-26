@@ -1257,28 +1257,28 @@ While React's Context API offers a powerful way to manage and propagate state ch
 there are scenarios where an event emitter might be a more appropriate choice. 
 Below, we detail some reasons why developers might opt for event emitters in certain situations.
 
-- Granularity 
+- **Granularity** 
   - Event emitters allow you to listen to very specific events. With the Context API, any component consuming the context will re-render when the context value changes. If you're looking to react to specific events rather than broad state changes, an event emitter could be more suitable.
 
-- Decoupling 
+- **Decoupling** 
   - Event emitters facilitate a decoupled architecture. Components or services can emit events without knowing or caring about the listeners. This can lead to more modular and maintainable code, particularly in larger applications.
 
-- Cross-Framework Compatibility 
+- **Cross-Framework Compatibility** 
   - In environments where different parts of your application use different frameworks or vanilla JavaScript, event emitters can provide a unified communication channel across these segments.
 
-- Multiple Listeners 
+- **Multiple Listeners** 
   - Event emitters inherently support having multiple listeners for a single event. This can be leveraged to trigger various side effects from one event, whereas with Context API, this would need manual management.
 
-- Deeply Nested Components 
+- **Deeply Nested Components** 
   - In applications with deeply nested component structures, prop-drilling or managing context might become cumbersome. Event emitters can be an alternative to simplify state and event management in such cases.
 
-- Historical Reasons 
+- **Historical Reasons** 
   - Older codebases developed before the advent of hooks and the newer Context API features might still employ event emitters, as they once provided a simpler solution to global state management in React.
 
-- Performance 
+- **Performance** 
   - Event emitters might provide a performance edge in cases where the Context API might cause unnecessary re-renders. Since event emitters don't inherently lead to re-renders, they can be more performant in specific scenarios.
 
-- Non-UI Logic 
+- **Non-UI Logic** 
   - For parts of your application logic that reside outside the React component tree, event emitters can be beneficial, as they aren't tied to React's lifecycle or component hierarchy.
 
 ### Link to React Example
