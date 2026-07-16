@@ -3,14 +3,15 @@ on:
   push:
     branches:
       - master
-  # Disabled pull_request to avoid SONAR_TOKEN requirement on feature branches
-  # Uncomment and set up SONAR_TOKEN secret in GitHub repo settings to enable
-  # pull_request:
-  #   types: [opened, synchronize, reopened]
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
+    # Fork PRs don't receive SONAR_TOKEN (GitHub withholds secrets), so they
+    # skip instead of failing; same-repo PRs and master pushes always scan.
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - uses: actions/checkout@v7
         with:
