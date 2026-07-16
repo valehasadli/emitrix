@@ -27,10 +27,11 @@ const createId = (): string => {
 	if (cryptoApi && typeof cryptoApi.randomUUID === 'function') {
 		return cryptoApi.randomUUID();
 	}
+	// Fallback for runtimes without Web Crypto. Event ids are identifiers,
+	// not security tokens: the monotonic counter guarantees uniqueness
+	// within the process, which is all the envelope contract requires.
 	idCounter += 1;
-	return `evt_${Date.now().toString(36)}_${idCounter.toString(36)}_${Math.random()
-		.toString(36)
-		.slice(2, 10)}`;
+	return `evt_${Date.now().toString(36)}_${idCounter.toString(36)}`;
 };
 
 interface ResolvedOptions<T extends EventMap> {
