@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-07-16
+
+### Changed
+- No code changes. Validates the fully automated release pipeline: GitHub Release → CI tests → npm publish via OIDC trusted publishing. The 1.x-era package name has been unpublished from npm; `emitrix` is the sole identity.
+
 ## [2.0.0] - 2026-07-16
 
 Complete rewrite as an async-first, in-process event bus for backend (DDD/EDA) use. **No backward compatibility with 1.x.**
