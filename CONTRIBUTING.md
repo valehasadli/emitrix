@@ -1,15 +1,15 @@
-# Contributing to BlinkHub
+# Contributing to Emitrix
 
 Thanks for your interest in contributing! This document explains how to get set
 up, what we expect from contributions, and how the release process works.
 
 ## Getting started
 
-Requirements: Node.js >= 20 (CI runs on Node 22) and npm.
+Requirements: Node.js >= 20 (CI tests on a Node 20/22/24/26 matrix) and npm.
 
 ```bash
-git clone https://github.com/valehasadli/BlinkHub.git
-cd BlinkHub
+git clone https://github.com/valehasadli/emitrix.git
+cd emitrix
 npm install
 npm test          # run the Jest suite
 npm run build     # compile with TypeScript to dist/
@@ -60,7 +60,7 @@ Please keep these in mind — PRs that fight them are unlikely to be merged:
 - **Explicit semantics.** Error policy, dispatch mode, and delivery behavior
   are documented contracts, not implementation details.
 - **In-process only.** Durability, brokers, and cross-process transport are
-  out of scope by design; BlinkHub composes with those systems instead of
+  out of scope by design; Emitrix composes with those systems instead of
   reimplementing them.
 - **Small surface.** New API needs a strong, general use case.
 

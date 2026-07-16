@@ -1,30 +1,30 @@
-# BlinkHub
+# Emitrix
 
 <p align="center">
   <strong>Async-first, type-safe in-process event bus for Node.js backends</strong>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/npm/v/blink-hub" alt="npm version" />
-  <img src="https://img.shields.io/npm/dm/blink-hub" alt="npm downloads" />
+  <img src="https://img.shields.io/npm/v/emitrix" alt="npm version" />
+  <img src="https://img.shields.io/npm/dm/emitrix" alt="npm downloads" />
   <img src="https://img.shields.io/badge/TypeScript-7.0-blue" alt="TypeScript" />
   <img src="https://img.shields.io/badge/dependencies-0-brightgreen" alt="Zero dependencies" />
 </p>
 
-BlinkHub is an in-process event bus built for backend architectures — domain events in a DDD modulith, module-to-module signaling, event-driven workflows. Handlers are **awaited**, failures follow an explicit **error policy**, every event carries **correlation metadata**, and a **middleware pipeline** gives you one place to hang tracing, logging, and metrics.
+Emitrix is an in-process event bus built for backend architectures — domain events in a DDD modulith, module-to-module signaling, event-driven workflows. Handlers are **awaited**, failures follow an explicit **error policy**, every event carries **correlation metadata**, and a **middleware pipeline** gives you one place to hang tracing, logging, and metrics.
 
 It has zero dependencies and uses no Node-specific APIs, so it also runs in browsers, Deno, Bun, and React Native.
 
-## What BlinkHub is — and is not
+## What Emitrix is — and is not
 
 **It is** an in-process event bus: typed publish/subscribe between modules inside one process, with the semantics a backend needs (async handlers, error policies, causality metadata, observability hooks).
 
-**It is not** a message broker. Events live in memory: they do not survive a crash, restart, or deploy, and they do not cross process boundaries. For durable or cross-service messaging, pair BlinkHub with a transactional outbox and a broker (Kafka, NATS, Redis Streams). A common pattern: domain events dispatch in-process through BlinkHub, and a middleware or `'*'` subscriber writes integration events to your outbox table.
+**It is not** a message broker. Events live in memory: they do not survive a crash, restart, or deploy, and they do not cross process boundaries. For durable or cross-service messaging, pair Emitrix with a transactional outbox and a broker (Kafka, NATS, Redis Streams). A common pattern: domain events dispatch in-process through Emitrix, and a middleware or `'*'` subscriber writes integration events to your outbox table.
 
 ## Installation
 
 ```
-npm i blink-hub
+npm i emitrix
 ```
 
 Requires Node.js >= 20 for backend use. Any modern browser works.
@@ -34,7 +34,7 @@ Requires Node.js >= 20 for backend use. Any modern browser works.
 Event maps declare **payload types**. Handlers receive the payload plus a full event envelope, and `emit` awaits them all:
 
 ```typescript
-import { Emitter } from 'blink-hub';
+import { Emitter } from 'emitrix';
 
 type Events = {
   'user.registered': { userId: string; email: string };
@@ -171,7 +171,7 @@ Delayed handlers don't block `emit` — their outcome is reported as `'scheduled
 Promise-based one-shot subscription — useful in sagas, tests, and startup coordination:
 
 ```typescript
-import { TimeoutError, AbortError } from 'blink-hub';
+import { TimeoutError, AbortError } from 'emitrix';
 
 const payload = await bus.waitFor('user.verified', {
   timeoutMs: 30_000,                        // rejects with TimeoutError
@@ -205,9 +205,9 @@ const bus = new Emitter<Events>({
 });
 ```
 
-## Using BlinkHub in the browser
+## Using Emitrix in the browser
 
-Backend-first does not mean backend-only. BlinkHub uses no Node APIs — only `Promise`, `setTimeout`, and `AbortSignal` — so it works unchanged in React, Vue, Svelte, or vanilla JS. The same features carry over: `AbortSignal` subscriptions fit component lifecycles, `waitFor` fits async UI flows, and fire-and-forget is just calling `emit` without awaiting (pair it with an `onError` hook).
+Backend-first does not mean backend-only. Emitrix uses no Node APIs — only `Promise`, `setTimeout`, and `AbortSignal` — so it works unchanged in React, Vue, Svelte, or vanilla JS. The same features carry over: `AbortSignal` subscriptions fit component lifecycles, `waitFor` fits async UI flows, and fire-and-forget is just calling `emit` without awaiting (pair it with an `onError` hook).
 
 ```typescript
 useEffect(() => {

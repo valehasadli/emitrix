@@ -14,7 +14,7 @@ Note that 2.0 was a breaking rewrite — 1.x users should consult the
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in BlinkHub:
+If you discover a security vulnerability in Emitrix:
 
 - **Do not disclose it publicly.** Avoid discussing potential vulnerabilities
   in GitHub issues, discussions, or other public spaces.
@@ -23,4 +23,4 @@ If you discover a security vulnerability in BlinkHub:
 You can expect an acknowledgement within a few days. Please include a
 reproduction if possible.
 
-Your contributions to the security of BlinkHub are greatly appreciated.
+Your contributions to the security of Emitrix are greatly appreciated.

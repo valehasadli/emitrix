@@ -24,7 +24,7 @@ assignees: ''
 
 ## Scope check
 
-BlinkHub is an in-process event bus by design — durability, brokers, and
+Emitrix is an in-process event bus by design — durability, brokers, and
 cross-process transport are intentionally out of scope (see README).
 
 - [ ] I've confirmed this request fits the in-process scope

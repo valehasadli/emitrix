@@ -1,5 +1,5 @@
 {
-  "name": "blink-hub",
+  "name": "emitrix",
   "version": "2.0.0",
   "description": "Async-first, type-safe in-process event bus for Node.js backends: awaited handlers, error policies, middleware, wildcards, and correlation metadata. Zero dependencies, runs in any JS runtime.",
   "main": "dist/index.js",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/valehasadli/BlinkHub.git"
+    "url": "git+https://github.com/valehasadli/emitrix.git"
   },
   "keywords": [
     "event",
@@ -32,9 +32,9 @@
   "author": "Valeh Asadli",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/valehasadli/BlinkHub/issues"
+    "url": "https://github.com/valehasadli/emitrix/issues"
   },
-  "homepage": "https://github.com/valehasadli/BlinkHub#readme",
+  "homepage": "https://github.com/valehasadli/emitrix#readme",
   "files": [
     "dist",
     "README.md",

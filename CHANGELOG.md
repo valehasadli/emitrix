@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Complete rewrite as an async-first, in-process event bus for backend (DDD/EDA) use. **No backward compatibility with 1.x.**
 
+**The package was renamed to `emitrix`** (repository: valehasadli/emitrix). 1.x releases remain published on npm under the previous name and are deprecated.
+
 ### Breaking
 - **Event maps now declare payload types, not callback signatures** — `type Events = { 'user.registered': { userId: string } }`. Handlers receive `(payload, envelope)` instead of positional arguments.
 - **`emit` is async** — it returns `Promise<EmitResult>` and awaits every handler (sync or async). Handler return values are no longer collected.
@@ -58,7 +60,7 @@ Complete rewrite as an async-first, in-process event bus for backend (DDD/EDA) u
   - Vue composables and plugins
   - Svelte stores and lifecycle management
 - **Enhanced FAQ** - Comprehensive answers with code examples
-- **Comparison Tables** - BlinkHub vs EventEmitter feature matrix
+- **Comparison Tables** - Emitrix vs EventEmitter feature matrix
 - **Professional Formatting** - Added badges, emojis, better structure
 
 ### Improved
@@ -171,10 +173,10 @@ Complete rewrite as an async-first, in-process event bus for backend (DDD/EDA) u
 - Support for async callbacks
 - Detailed documentation and examples
 
-[unreleased]: https://github.com/valehasadli/BlinkHub/compare/v1.2.0...HEAD
-[1.2.0]: https://github.com/valehasadli/BlinkHub/compare/v1.1.0...v1.2.0
-[1.0.3]: https://github.com/valehasadli/BlinkHub/compare/v1.0.2...v1.0.3
-[1.0.2]: https://github.com/valehasadli/BlinkHub/compare/v1.0.1...v1.0.2
-[1.0.1]: https://github.com/valehasadli/BlinkHub/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/valehasadli/BlinkHub/compare/v0.5.0.1...v1.0.0
-[0.5.0.1]: https://github.com/valehasadli/BlinkHub/releases/tag/v0.5.0.1
+[unreleased]: https://github.com/valehasadli/emitrix/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/valehasadli/emitrix/compare/v1.1.0...v1.2.0
+[1.0.3]: https://github.com/valehasadli/emitrix/compare/v1.0.2...v1.0.3
+[1.0.2]: https://github.com/valehasadli/emitrix/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/valehasadli/emitrix/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/valehasadli/emitrix/compare/v0.5.0.1...v1.0.0
+[0.5.0.1]: https://github.com/valehasadli/emitrix/releases/tag/v0.5.0.1

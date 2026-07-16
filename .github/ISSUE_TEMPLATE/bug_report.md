@@ -15,7 +15,7 @@ assignees: ''
 <!-- Minimal code that reproduces the issue. A failing Jest test is ideal. -->
 
 ```typescript
-import { Emitter } from 'blink-hub';
+import { Emitter } from 'emitrix';
 
 // ...
 ```
@@ -30,7 +30,7 @@ import { Emitter } from 'blink-hub';
 
 ## Environment
 
-- blink-hub version:
+- emitrix version:
 - Runtime and version (Node.js / browser / Deno / Bun):
 - TypeScript version (if applicable):
 - OS:
