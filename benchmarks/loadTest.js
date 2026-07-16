@@ -1,44 +1,36 @@
-const Emitter = require('../dist/core/Emitter').default;
+const { Emitter } = require('../dist/index');
 
-const userEmitter = new Emitter();
+const run = async () => {
+	const emitter = new Emitter({ maxListeners: 0 });
 
-// High-priority listener for userLoggedIn
-userEmitter.subscribe('userLoggedIn', (username) => {
-    console.log(`[High Priority] ${username} logged in`);
-}, 100);
+	let high = 0;
+	let medium = 0;
+	let low = 0;
+	let wildcard = 0;
 
-// Medium-priority listener for userLoggedIn
-userEmitter.subscribe('userLoggedIn', (username) => {
-    for (let i = 0; i < 1000; i++) {} // Simulate processing delay
-    console.log(`[Medium Priority] Welcome message sent to ${username}`);
-}, 50);
+	emitter.on('user.loggedIn', () => void (high += 1), { priority: 100 });
+	emitter.on('user.loggedIn', () => void (medium += 1), { priority: 50 });
+	emitter.on('user.loggedIn', () => void (low += 1), { priority: 10 });
+	emitter.on('user.*', () => void (wildcard += 1));
+	emitter.on('system.check', () => undefined);
+	emitter.on('data.update', () => undefined);
 
-// Low-priority listener for userLoggedIn
-userEmitter.subscribe('userLoggedIn', (username) => {
-    for (let i = 0; i < 10000; i++) {} // Simulate heavier task
-    console.log(`[Low Priority] Analytics updated for ${username}`);
-}, 10);
+	const iterations = 1_000_000;
 
-// Additional listeners for systemCheck and dataUpdate
-userEmitter.subscribe('systemCheck', (message) => {
-    console.log(`[System Check] ${message}`);
+	console.time('emitLoop');
+	for (let i = 0; i < iterations; i += 1) {
+		await emitter.emit('user.loggedIn', { userId: `user-${i}` });
+		if (i % 100 === 0) {
+			await emitter.emit('system.check', { at: i });
+			await emitter.emit('data.update', { at: i });
+		}
+	}
+	console.timeEnd('emitLoop');
+
+	console.log({ high, medium, low, wildcard });
+};
+
+run().catch(error => {
+	console.error(error);
+	process.exit(1);
 });
-
-userEmitter.subscribe('dataUpdate', (message) => {
-    console.log(`[Data Update] ${message}`);
-});
-
-console.time('emitLoop');
-
-// Emitting a mix of events
-for (let i = 0; i < 1000000; i++) {
-    userEmitter.emit('userLoggedIn', `User${i}`);
-    if (i % 100 === 0) {
-        userEmitter.emit('systemCheck', `System Check at ${i}`);
-        userEmitter.emit('dataUpdate', `Data Update at ${i}`);
-    }
-}
-
-console.timeEnd('emitLoop');
-
-module.exports = Emitter;

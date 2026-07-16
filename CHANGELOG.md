@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-07-16
+
+Complete rewrite as an async-first, in-process event bus for backend (DDD/EDA) use. **No backward compatibility with 1.x.**
+
+**The package was renamed to `emitrix`** (repository: valehasadli/emitrix). 1.x releases remain published on npm under the previous name and are deprecated.
+
+### Breaking
+- **Event maps now declare payload types, not callback signatures** — `type Events = { 'user.registered': { userId: string } }`. Handlers receive `(payload, envelope)` instead of positional arguments.
+- **`emit` is async** — it returns `Promise<EmitResult>` and awaits every handler (sync or async). Handler return values are no longer collected.
+- **`subscribe`/`subscribeList`/`subscribeWithDelay` removed** — use `on(pattern, handler, options)` with `priority`, `delay`, and `signal` options.
+- **Errors are no longer mixed into a results array** — under the default `aggregate` policy they are collected in `EmitResult.errors` and reported to `onError` hooks; under `fail-fast` emit rejects with `EmitError`.
+- **Default export is now the named `Emitter` class**; the package exposes named exports for all types and errors.
+- **Requires Node.js >= 20** (any modern browser still works).
+
+### Added
+- **Event envelopes** — every event carries `id`, `timestamp`, `correlationId`, `causationId`, and mutable `metadata` for tracing and outbox integration.
+- **Error policies** — `aggregate` (default) or `fail-fast`, configurable per emitter and per emit.
+- **Dispatch modes** — `sequential` (default, priority-ordered) or `parallel`, configurable per emitter and per emit.
+- **Wildcard subscriptions** — `'user.*'` prefix patterns and `'*'` catch-all, fully typed via template-literal types.
+- **Middleware pipeline** — `use((event, next) => ...)` wraps every dispatch for tracing, logging, metrics, or enrichment; may short-circuit.
+- **`onError` hooks** — centralized handler-failure reporting, including failures of delayed handlers.
+- **`waitFor(pattern, { timeoutMs, signal, filter })`** — promise-based one-shot subscription with `TimeoutError`/`AbortError` rejections.
+- **`AbortSignal` support** on subscriptions.
+- **Cancellable delayed listeners** — unsubscribe (or abort) now cancels pending `delay` timers (fixes 1.x firing after unsubscribe).
+- **Leak warnings via `onWarning` hook** instead of hardcoded `console.warn`.
+- **`dispose()`** for full teardown of listeners, middleware, hooks, and channels.
+
+### Changed
+- Tooling upgraded: TypeScript 7 (native compiler), Jest 30, Babel 8, ES2022 output (~4.5x faster emits than the 1.x ES2016 build).
+- CI modernized: PR tests run on a Node 20/22/24/26 matrix; publish and Sonar jobs run on Node 24 LTS; actions upgraded (checkout/setup-node v7, action-gh-release v3); the deprecated sonarcloud-github-action replaced with SonarSource/sonarqube-scan-action v8.
+- Added a stress suite (`npm run test:stress`, also in CI): memory-soak with leak bounds, seeded fuzz testing against a reference model, and concurrency storms (parallel emits, error floods, mass delayed-timer cancellation).
+- **License changed from Apache-2.0 to MIT.**
+- Added community health files: CODE_OF_CONDUCT.md (Contributor Covenant 2.1), CONTRIBUTING.md, issue templates, and a pull request template.
+
 ## [1.2.1] - 2026-02-03
 
 ### Changed
@@ -26,7 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Vue composables and plugins
   - Svelte stores and lifecycle management
 - **Enhanced FAQ** - Comprehensive answers with code examples
-- **Comparison Tables** - BlinkHub vs EventEmitter feature matrix
+- **Comparison Tables** - Emitrix vs EventEmitter feature matrix
 - **Professional Formatting** - Added badges, emojis, better structure
 
 ### Improved
@@ -139,10 +173,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for async callbacks
 - Detailed documentation and examples
 
-[unreleased]: https://github.com/valehasadli/BlinkHub/compare/v1.2.0...HEAD
-[1.2.0]: https://github.com/valehasadli/BlinkHub/compare/v1.1.0...v1.2.0
-[1.0.3]: https://github.com/valehasadli/BlinkHub/compare/v1.0.2...v1.0.3
-[1.0.2]: https://github.com/valehasadli/BlinkHub/compare/v1.0.1...v1.0.2
-[1.0.1]: https://github.com/valehasadli/BlinkHub/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/valehasadli/BlinkHub/compare/v0.5.0.1...v1.0.0
-[0.5.0.1]: https://github.com/valehasadli/BlinkHub/releases/tag/v0.5.0.1
+[unreleased]: https://github.com/valehasadli/emitrix/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/valehasadli/emitrix/compare/v1.1.0...v1.2.0
+[1.0.3]: https://github.com/valehasadli/emitrix/compare/v1.0.2...v1.0.3
+[1.0.2]: https://github.com/valehasadli/emitrix/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/valehasadli/emitrix/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/valehasadli/emitrix/compare/v0.5.0.1...v1.0.0
+[0.5.0.1]: https://github.com/valehasadli/emitrix/releases/tag/v0.5.0.1

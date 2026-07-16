@@ -1,79 +1,43 @@
-import Emitter from '../../src';
-import { Channel } from '../../src/lib/channels/Channel';
+import { Emitter } from '../../src';
 
-type MyEvents = {
-	eventName: (arg: string) => void;
+type Events = {
+	'user.registered': { userId: string };
 };
 
-describe('Emitter with Channels', () => {
-	let emitter: Emitter<MyEvents>;
-	let userChannel: Channel<MyEvents>;
-	let adminChannel: Channel<MyEvents>;
-
-	beforeEach(() => {
-		emitter = new Emitter<MyEvents>();
-		userChannel = emitter.channel('user');
-		adminChannel = emitter.channel('admin');
+describe('channels', () => {
+	it('returns the same instance for the same name', () => {
+		const emitter = new Emitter<Events>();
+		expect(emitter.channel('geo:eu')).toBe(emitter.channel('geo:eu'));
+		expect(emitter.channel('geo:eu')).not.toBe(emitter.channel('geo:us'));
 	});
 
-	test('Subscribing and Emitting on the Global Emitter', () => {
-		let globalEventTriggered = false;
+	it('isolates listeners between channels and the root emitter', async () => {
+		const emitter = new Emitter<Events>();
+		const rootHandler = jest.fn();
+		const euHandler = jest.fn();
+		const usHandler = jest.fn();
 
-		emitter.subscribe('eventName', (arg: string) => {
-			globalEventTriggered = true;
-			expect(arg).toBe('TestArg');
+		emitter.on('user.registered', rootHandler);
+		emitter.channel('geo:eu').on('user.registered', euHandler);
+		emitter.channel('geo:us').on('user.registered', usHandler);
+
+		await emitter.channel('geo:eu').emit('user.registered', { userId: 'u1' });
+
+		expect(euHandler).toHaveBeenCalledTimes(1);
+		expect(usHandler).not.toHaveBeenCalled();
+		expect(rootHandler).not.toHaveBeenCalled();
+	});
+
+	it('inherits the parent configuration', async () => {
+		const onError = jest.fn();
+		const emitter = new Emitter<Events>({ errorPolicy: 'aggregate', onError });
+
+		emitter.channel('geo:eu').on('user.registered', () => {
+			throw new Error('boom');
 		});
 
-		emitter.emit('eventName', 'TestArg');
-		expect(globalEventTriggered).toBe(true);
+		const result = await emitter.channel('geo:eu').emit('user.registered', { userId: 'u1' });
+		expect(result.ok).toBe(false);
+		expect(onError).toHaveBeenCalledTimes(1);
 	});
-
-	test('Subscribing and Emitting on a Channel', () => {
-		let channelEventTriggered = false;
-
-		userChannel.subscribe('eventName', (arg: string) => {
-			channelEventTriggered = true;
-			expect(arg).toBe('ChannelArg');
-		});
-
-		userChannel.emit('eventName', 'ChannelArg');
-		expect(channelEventTriggered).toBe(true);
-	});
-
-	test('Isolation Between Channels', () => {
-		let userEventTriggered = false;
-		let adminEventTriggered = false;
-
-		userChannel.subscribe('eventName', () => {
-			userEventTriggered = true;
-		});
-		adminChannel.subscribe('eventName', () => {
-			adminEventTriggered = true;
-		});
-
-		userChannel.emit('eventName', 'UserEvent');
-		expect(userEventTriggered).toBe(true);
-		expect(adminEventTriggered).toBe(false);
-	});
-
-	test('Channel Reusability', () => {
-		const firstUserChannel = emitter.channel('user');
-		const secondUserChannel = emitter.channel('user');
-
-		expect(firstUserChannel).toBe(secondUserChannel);
-	});
-
-	test('Unsubscribing from a Channel', () => {
-		let eventCount = 0;
-
-		const unsubscribe = userChannel.subscribe('eventName', () => {
-			eventCount++;
-		});
-
-		unsubscribe();
-
-		userChannel.emit('eventName', 'TestArg');
-		expect(eventCount).toBe(0);
-	});
-
 });
