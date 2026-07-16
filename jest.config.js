@@ -17,6 +17,9 @@ module.exports = {
         "<rootDir>/tests/?(*.)+(spec|test).[tj]s?(x)"
     ],
 
+    // Stress/soak tests are long-running; they run via `npm run test:stress` only
+    testPathIgnorePatterns: process.env.STRESS ? [] : ["<rootDir>/tests/stress/"],
+
     // A map from regular expressions to paths to transformers
     transform: {
         "^.+\\.(ts|tsx)?$": "babel-jest"

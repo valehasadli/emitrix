@@ -9,14 +9,19 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        # Full supported range: engines is >=20; 24 is LTS, 26 is current.
+        node-version: [20, 22, 24, 26]
+
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v7
         with:
-          node-version: '20'
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
       - name: Install Dependencies
@@ -24,3 +29,9 @@ jobs:
 
       - name: Run Tests
         run: npm test
+
+      - name: Run Stress Suite
+        run: npm run test:stress
+
+      - name: Build
+        run: npm run build

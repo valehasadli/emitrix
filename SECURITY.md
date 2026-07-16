@@ -1,22 +1,26 @@
 # Security Policy
 
-Ensuring the security and trustworthiness of BlinkHub Emitter is paramount to us. Here's our security policy and guidelines.
-
 ## Supported Versions
 
-In line with our commitment to security and ease of use, we support only the latest version of **BlinkHub Emitter.** 
-Due to our strict adherence to 100% backward compatibility and the absence of any breaking changes, users can seamlessly update to the latest version from any previous version without encountering API changes.
+Only the latest major version receives security fixes.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 0.4.0   | :white_check_mark: |
-| < 0.4.0 | :white_check_mark: |
+| 2.x     | :white_check_mark: |
+| < 2.0   | :x:                |
+
+Note that 2.0 was a breaking rewrite — 1.x users should consult the
+[CHANGELOG](CHANGELOG.md) before upgrading.
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in **BlinkHub Emitter**:
+If you discover a security vulnerability in BlinkHub:
 
-**Do not disclose it publicly:** Avoid discussing potential security vulnerabilities in public spaces like GitHub issues or forums.
-**Contact us directly:** Email your detailed report to valehasadli@gmail.com
+- **Do not disclose it publicly.** Avoid discussing potential vulnerabilities
+  in GitHub issues, discussions, or other public spaces.
+- **Contact us directly:** email a detailed report to valeh.asadli@cosmiclatte.com.
 
-Your contributions to the security of **BlinkHub Emitter** are greatly appreciated.
+You can expect an acknowledgement within a few days. Please include a
+reproduction if possible.
+
+Your contributions to the security of BlinkHub are greatly appreciated.
