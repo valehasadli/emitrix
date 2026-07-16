@@ -2,15 +2,12 @@
 
 ## Supported Versions
 
-Only the latest major version receives security fixes.
+Only the latest minor version receives security fixes.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 2.x     | :white_check_mark: |
-| < 2.0   | :x:                |
-
-Note that 2.0 was a breaking rewrite — 1.x users should consult the
-[CHANGELOG](CHANGELOG.md) before upgrading.
+| 0.1.x   | :white_check_mark: |
+| < 0.1   | :x:                |
 
 ## Reporting a Vulnerability
 

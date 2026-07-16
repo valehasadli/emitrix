@@ -1,6 +1,6 @@
 {
   "name": "emitrix",
-  "version": "2.0.1",
+  "version": "0.1.0",
   "description": "Async-first, type-safe in-process event bus for Node.js backends: awaited handlers, error policies, middleware, wildcards, and correlation metadata. Zero dependencies, runs in any JS runtime.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
