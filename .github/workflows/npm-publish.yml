@@ -51,6 +51,14 @@ jobs:
           fi
       - run: npm ci
       - run: npm run build
-      # Explicit --tag latest: npm rejects implicit latest when a higher
-      # version exists on the registry (relevant while 2.0.x awaits unpublish)
-      - run: npm publish --tag latest
+      # Idempotent: skip when this version is already on the registry
+      # (e.g. a manual bootstrap publish). --tag latest is explicit because
+      # npm rejects implicit latest if a higher version ever exists.
+      - name: Publish to npm
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if [ "$(npm view "emitrix@$VERSION" version 2>/dev/null)" = "$VERSION" ]; then
+            echo "emitrix@$VERSION already on the registry — skipping publish."
+          else
+            npm publish --tag latest
+          fi
