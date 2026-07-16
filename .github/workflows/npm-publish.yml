@@ -51,4 +51,6 @@ jobs:
           fi
       - run: npm ci
       - run: npm run build
-      - run: npm publish
+      # Explicit --tag latest: npm rejects implicit latest when a higher
+      # version exists on the registry (relevant while 2.0.x awaits unpublish)
+      - run: npm publish --tag latest
