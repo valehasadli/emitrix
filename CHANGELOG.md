@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-07-20
+
+Republish of 0.1.1 after the package was unpublished from the npm registry on 2026-07-16. npm does not allow reusing previously published version numbers, hence the bump. No code changes — see 0.1.1 below for the full feature list.
+
 ## [0.1.1] - 2026-07-17
 
 Initial public release of **Emitrix** — an async-first, type-safe in-process event bus for Node.js backends (DDD/EDA moduliths). Zero runtime dependencies; no Node-specific APIs, so it also runs in browsers, Deno, Bun, and React Native.
