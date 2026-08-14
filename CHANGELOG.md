@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-08-14
+
 ### Changed
 
 - Updated dev dependencies to their latest in-range versions (lockfile only; Babel toolchain internals and other transitive packages). No runtime dependencies — the library still ships with zero — and no code changes.
