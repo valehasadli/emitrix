@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated dev dependencies to their latest in-range versions (lockfile only; Babel toolchain internals and other transitive packages). No runtime dependencies — the library still ships with zero — and no code changes.
+
 ## [0.1.2] - 2026-07-20
 
 Republish of 0.1.1 after the package was unpublished from the npm registry on 2026-07-16. npm does not allow reusing previously published version numbers, hence the bump. No code changes — see 0.1.1 below for the full feature list.
